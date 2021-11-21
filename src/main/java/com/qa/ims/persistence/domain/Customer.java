@@ -2,27 +2,27 @@ package com.qa.ims.persistence.domain;
 
 public class Customer {
 
-	private Long id;
+	private Long customerId;
 	private String firstName;
-	private String surname;
+	private String lastName;
 
-	public Customer(String firstName, String surname) {
+	public Customer(String firstName, String lastName) {
 		this.setFirstName(firstName);
-		this.setSurname(surname);
+		this.setLastName(lastName);
 	}
 
-	public Customer(Long id, String firstName, String surname) {
+	public Customer(Long id, String firstName, String lastName) {
 		this.setId(id);
 		this.setFirstName(firstName);
-		this.setSurname(surname);
+		this.setLastName(lastName);
 	}
 
 	public Long getId() {
-		return id;
+		return customerId;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.customerId = id;
 	}
 
 	public String getFirstName() {
@@ -33,17 +33,17 @@ public class Customer {
 		this.firstName = firstName;
 	}
 
-	public String getSurname() {
-		return surname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	@Override
 	public String toString() {
-		return "id:" + id + " first name:" + firstName + " surname:" + surname;
+		return "id:" + customerId + " first name:" + firstName + " last name:" + lastName;
 	}	
 	
 	@Override
@@ -51,8 +51,8 @@ public class Customer {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		return result;
 	}
 
@@ -70,15 +70,15 @@ public class Customer {
 				return false;
 		} else if (!getFirstName().equals(other.getFirstName()))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (customerId == null) {
+			if (other.customerId != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!customerId.equals(other.customerId))
 			return false;
-		if (surname == null) {
-			if (other.surname != null)
+		if (lastName == null) {
+			if (other.lastName != null)
 				return false;
-		} else if (!surname.equals(other.surname))
+		} else if (!lastName.equals(other.lastName))
 			return false;
 		return true;
 	}
