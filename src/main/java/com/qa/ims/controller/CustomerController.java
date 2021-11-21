@@ -45,10 +45,9 @@ public class CustomerController implements CrudController<Customer> {
 	public Customer create() {
 		LOGGER.info("Please enter a first name");
 		String firstName = utils.getString();
-		LOGGER.info("Please enter a surname");
-		String surname = utils.getString();
-		Customer customer = customerDAO.create(new Customer(firstName, surname));
-		LOGGER.info("Customer created");
+		LOGGER.info("Please enter a last name");
+		String lastName = utils.getString();
+		Customer customer = customerDAO.create(new Customer(firstName, lastName));
 		return customer;
 	}
 
