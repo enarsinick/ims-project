@@ -11,8 +11,8 @@ public class Customer {
 		this.setLastName(lastName);
 	}
 
-	public Customer(Long id, String firstName, String lastName) {
-		this.setId(id);
+	public Customer(Long customerId, String firstName, String lastName) {
+		this.setId(customerId);
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 	}
@@ -21,8 +21,8 @@ public class Customer {
 		return customerId;
 	}
 
-	public void setId(Long id) {
-		this.customerId = id;
+	public void setId(Long customerId) {
+		this.customerId = customerId;
 	}
 
 	public String getFirstName() {
@@ -43,7 +43,7 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return "id:" + customerId + " first name:" + firstName + " last name:" + lastName;
+		return "Customer ID: " + customerId + " | First Name: " + firstName + " | Last Name: " + lastName;
 	}	
 	
 	@Override
