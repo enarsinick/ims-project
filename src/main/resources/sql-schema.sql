@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`orders` (
     `fk_customer_id` int NOT NULL, 
     PRIMARY KEY (`order_id`),
     FOREIGN KEY (`fk_customer_id`) REFERENCES customers(`customer_id`)
+    ON DELETE CASCADE
 );
 
 -- order items joining table
@@ -36,5 +37,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`order_items` (
     `order_quantity` int NOT NULL, 
     PRIMARY KEY (`order_items_id`), 
     FOREIGN KEY (`fk_order_id`) REFERENCES orders(`order_id`), 
-    FOREIGN KEY (`fk_product_id`) REFERENCES products(`product_id`)
+    FOREIGN KEY (`fk_product_id`) REFERENCES products(`product_id`),
+    FOREIGN KEY (fk_customer_id) REFERENCES customers(customer_id)
+    ON DELETE CASCADE
 );
