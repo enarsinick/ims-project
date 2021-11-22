@@ -24,8 +24,9 @@ public class ProductController implements CrudController<Product> {
 
 	@Override
 	public List<Product> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Product> products = productDAO.readAll();
+		products.stream().forEach(product -> LOGGER.info(product));
+		return products;
 	}
 	
 	/**

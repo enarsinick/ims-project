@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -64,10 +65,27 @@ public class ProductDAO implements Dao<Product> {
 		return new Product(productId, title, price);
 	}
 
+	/**
+	 * Reads all products from the database
+	 * 
+	 * @return A list of products
+	 */
+	
 	@Override
 	public List<Product> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM products");) {
+			List<Product> products = new ArrayList<>();
+			while (resultSet.next()) {
+				products.add(modelFromResultSet(resultSet));
+			}
+			return products;
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return new ArrayList<>();
 	}
 
 	@Override
