@@ -59,8 +59,9 @@ public class ProductController implements CrudController<Product> {
 
 	@Override
 	public int delete() {
-		// TODO Auto-generated method stub
-		return 0;
+		LOGGER.info("Please enter the ID of the product you'd like to delete");
+		Long id = utils.getLong();
+		return productDAO.delete(id);
 	}
 
 }

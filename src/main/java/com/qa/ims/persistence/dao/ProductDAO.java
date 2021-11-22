@@ -88,9 +88,24 @@ public class ProductDAO implements Dao<Product> {
 		return new ArrayList<>();
 	}
 
+	/**
+	 * Reads a single product from the database
+	 * 
+	 * @return A product object
+	 */
 	@Override
 	public Product read(Long id) {
-		// TODO Auto-generated method stub
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("SELECT * FROM products WHERE product_id = ?");) {
+			statement.setLong(1, id);
+			try (ResultSet resultSet = statement.executeQuery();) {
+				resultSet.next();
+				return modelFromResultSet(resultSet);
+			}
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
 		return null;
 	}
 
@@ -119,9 +134,23 @@ public class ProductDAO implements Dao<Product> {
 		return null;
 	}
 
+	/**
+	 * Deletes a product in the database
+	 * 
+	 * @param id - id of the product
+	 */
 	@Override
 	public int delete(long id) {
-		// TODO Auto-generated method stub
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM products WHERE product_id = ?");) {
+			statement.setLong(1, id);
+			Product product = read(id);
+			LOGGER.info("{}: {} has been deleted...", product.getProductId(), product.getTitle());			
+			return statement.executeUpdate();
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
 		return 0;
 	}
 
