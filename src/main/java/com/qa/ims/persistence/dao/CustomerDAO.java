@@ -134,6 +134,8 @@ public class CustomerDAO implements Dao<Customer> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("DELETE FROM customers WHERE customer_id = ?");) {
 			statement.setLong(1, id);
+			Customer customer = read(id);
+			LOGGER.info("{}: {} {} user account has been deleted. Along with any orders tied to the customer...", customer.getId(), customer.getFirstName(), customer.getLastName());			
 			return statement.executeUpdate();
 		} catch (Exception e) {
 			LOGGER.debug(e);
