@@ -26,9 +26,13 @@ public class OrderDAO implements Dao<Order>{
 	}
 
 	@Override
-	public Order create(Order t) {
+	public Order create(Order order) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public void createOrderItem(Long product, Long quantity, Long orderId, Long customerId) {
+		// Write database stuff here for creating new order item
 	}
 
 	@Override
