@@ -94,9 +94,28 @@ public class ProductDAO implements Dao<Product> {
 		return null;
 	}
 
+	/**
+	 * Updates a product in the database
+	 * 
+	 * @param product - takes in a product object, the id field will be used to
+	 *                 update that product in the database
+	 * @return
+	 */
 	@Override
-	public Product update(Product t) {
-		// TODO Auto-generated method stub
+	public Product update(Product product) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection
+						.prepareStatement("UPDATE products SET title = ?, price = ? WHERE product_id = ?");) {
+			statement.setString(1, product.getTitle());
+			statement.setDouble(2, product.getPrice());
+			statement.setLong(3, product.getProductId());
+			statement.executeUpdate();
+			LOGGER.info("Product updated: " + product);
+			return read(product.getProductId());
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
 		return null;
 	}
 
