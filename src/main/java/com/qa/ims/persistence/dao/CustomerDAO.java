@@ -115,6 +115,7 @@ public class CustomerDAO implements Dao<Customer> {
 			statement.setString(2, customer.getLastName());
 			statement.setLong(3, customer.getId());
 			statement.executeUpdate();
+			LOGGER.info("Customer updated: " + customer);
 			return read(customer.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e);
