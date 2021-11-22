@@ -41,11 +41,20 @@ public class ProductController implements CrudController<Product> {
 		Product product = productDAO.create(new Product(title, price));
 		return product;
 	}
-
+	
+	/**
+	 * Updates an existing product by taking in user input
+	 */
 	@Override
 	public Product update() {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.info("Please enter the id of the product you would like to update");
+		Long id = utils.getLong();
+		LOGGER.info("Please enter the title for the game");
+		String title = utils.getString();
+		LOGGER.info("Please enter a new price for the game (e.g 19.99)");
+		double price = utils.getDouble();
+		Product product = productDAO.update(new Product(id, title, price));
+		return product;
 	}
 
 	@Override
