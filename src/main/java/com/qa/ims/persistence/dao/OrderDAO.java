@@ -47,7 +47,7 @@ public class OrderDAO implements Dao<Order>{
 	}
 	
 	/**
-	 * Creates a new order in the order table and order_items table
+	 * Creates a new order in the orders table
 	 * 
 	 * @param order - takes in a order object.
 	 */
@@ -68,8 +68,24 @@ public class OrderDAO implements Dao<Order>{
 		return null;
 	}
 	
+	/**
+	 * Creates a new order in the order_items table
+	 */
+	
 	public void createOrderItem(Long product, Long quantity, Long orderId, Long customerId) {
-		// Write database stuff here for creating new order item
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection
+				.prepareStatement("INSERT INTO order_items (fk_order_id, fk_product_id, fk_customer_id, order_quantity) VALUES (? , ?, ? , ?)");) {
+				statement.setLong(1, orderId);
+				statement.setLong(2, product);
+				statement.setLong(3, customerId);
+				statement.setLong(4, quantity);
+				statement.executeUpdate();
+				LOGGER.info("Item(s) added...");
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
 	}
 
 	@Override
@@ -87,7 +103,8 @@ public class OrderDAO implements Dao<Order>{
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long customerId = resultSet.getLong("fk_customer_id");
-		return new Order(customerId);
+		Long orderId = resultSet.getLong("order_id");
+		return new Order(orderId, customerId);
 	}
 
 }
