@@ -40,17 +40,6 @@ public class OrderController implements CrudController<Order>{
 	public List<Order> readAll() {
 		List<Order> orders = orderDAO.readAll();
 		orders.stream().forEach(order -> LOGGER.info(order));
-//		double amount = 00.00D;
-//		for (int i = 1; i < orders.size(); i++) {
-//			amount = orders.get(i - 1).getTotal();
-//			
-//			if (orders.get(i).getOrderId() == orders.get(i - 1).getOrderId()) {
-//				LOGGER.info("The have the same ID");
-//			} else {
-//				LOGGER.info("The do not have the same ID");
-//			}
-//		}
-//		LOGGER.info(amount);
 		return orders;
 	}
 	
