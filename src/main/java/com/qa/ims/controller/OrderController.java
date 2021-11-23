@@ -93,17 +93,21 @@ public class OrderController implements CrudController<Order>{
 	@Override
 	public Order update() {
 		
+		Long orderId;
+		List<Product> products;
+		boolean choosing;
+		
 		// List all current orders
 		List<Order> orders = orderDAO.readAll();
 		orders.stream().forEach(order -> LOGGER.info(order));
 		
 		// Select the order that needs to be updated and retrieve order from orders table
 		LOGGER.info("Please write the ID of the order you want to update");
-		Long orderId = utils.getLong();
+		orderId = utils.getLong();
 		Order order = orderDAO.read(orderId);
 		
 		// Get contents of entire order from order items table
-		List<Product> products = orderDAO.getOrderContents(order.getOrderId());
+		products = orderDAO.getOrderContents(order.getOrderId());
 		products.stream().forEach(product -> LOGGER.info(product));
 		
 		// What does the user want to do
@@ -111,15 +115,11 @@ public class OrderController implements CrudController<Order>{
 		String input = utils.getString().toUpperCase();
 		
 		if (input.equals("ADD")) {
-			
 			// Print all games
-			List<Product> productList = this.products.readAll();
-			productList.stream().forEach(product -> LOGGER.info(product));
-			
-			boolean choosing = true;
+			this.products.readAll();
 			Map<Long, Long> chosenProds = new HashMap<>();
-			
 			// Get users choices and quantity
+			choosing = true;
 			while (choosing) {
 				LOGGER.info("Please supply ID of product to add or write 0 when finished");
 				Long productId = utils.getLong();
@@ -132,30 +132,32 @@ public class OrderController implements CrudController<Order>{
 					break;
 				}
 			}
-			
 			// Create entries in order items
 			for (Entry<Long, Long> i : chosenProds.entrySet()) {
 				Order newOrderItem = new Order(order.getOrderId(), order.getCustomerId(), i.getKey(), i.getValue() );
 				orderDAO.update(newOrderItem);
 			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		} else if (input.equals("DELETE"))  {
-			LOGGER.info("You have selected delete");
+			choosing = true;
+			while (choosing) {
+				LOGGER.info("Please supply ID of product to add or write 0 when finished");
+				Long removeItemId = utils.getLong();
+				if (removeItemId != 0) {
+					orderDAO.removeFromOrder(removeItemId, order.getCustomerId(), order.getOrderId());
+				} else {
+					choosing = false;
+					break;
+				}
+			}
 		} else {
 			LOGGER.info("You didn't specify a correct action. Please try again.");
 		}
-		
 		return null;
 	}
+	
+	/*
+	 * Deletes an order based on it's ID
+	 */
 
 	@Override
 	public int delete() {
