@@ -158,6 +158,24 @@ public class OrderDAO implements Dao<Order>{
 		createOrderItem(order.getProductId(), order.getQuantity(), order.getOrderId(), order.getCustomerId());
 		return null;
 	}
+	
+	/*
+	 * Removes a single item from a current order in the order_items table
+	 */
+	
+	public void removeFromOrder(Long productId, Long customerId, Long orderId) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE fk_product_id = ? AND fk_customer_id = ? AND fk_order_id = ?");) {
+			statement.setLong(1, productId);
+			statement.setLong(2, customerId);
+			statement.setLong(3, orderId);
+			statement.executeUpdate();
+			LOGGER.info("Item has been deleted from order...");			
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+	}
 
 	/**
 	 * Deletes an order in the database
