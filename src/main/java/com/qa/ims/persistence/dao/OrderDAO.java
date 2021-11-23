@@ -1,13 +1,17 @@
 package com.qa.ims.persistence.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.qa.ims.persistence.domain.Order;
+import com.qa.ims.utils.DBUtils;
 
 public class OrderDAO implements Dao<Order>{
 	
@@ -24,10 +28,43 @@ public class OrderDAO implements Dao<Order>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/**
+	 * Reads the most recent order from DB and returns said order
+	 */
+	
+	public Order readLatest() {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY order_id DESC LIMIT 1");) {
+			resultSet.next();
+			return modelFromResultSet(resultSet);
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+	
+	/**
+	 * Creates a new order in the order table and order_items table
+	 * 
+	 * @param order - takes in a order object.
+	 */
 
 	@Override
 	public Order create(Order order) {
-		// TODO Auto-generated method stub
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection
+				.prepareStatement("INSERT INTO orders (fk_customer_id) VALUES (?)");) {
+				statement.setLong(1, order.getCustomerId());
+				statement.executeUpdate();
+				LOGGER.info("Order created");
+				return readLatest();
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
 		return null;
 	}
 	
@@ -49,8 +86,8 @@ public class OrderDAO implements Dao<Order>{
 
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Long customerId = resultSet.getLong("fk_customer_id");
+		return new Order(customerId);
 	}
 
 }
