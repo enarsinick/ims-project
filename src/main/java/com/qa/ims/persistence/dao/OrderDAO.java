@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,10 +20,32 @@ public class OrderDAO implements Dao<Order>{
 
 	@Override
 	public List<Order> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT "
+						+ "order_id, "
+						+ "first_name, "
+						+ "last_name, "
+						+ "title, "
+						+ "price, "
+						+ "order_quantity, "
+						+ "order_quantity*price AS total "
+						+ "FROM order_items oi "
+						+ "JOIN products p ON oi.fk_product_id=p.product_id "
+						+ "JOIN orders o ON oi.fk_order_id=o.order_id "
+						+ "JOIN customers c ON o.fk_customer_id=c.customer_id");) {
+			List<Order> orders = new ArrayList<>();
+			while (resultSet.next()) {
+				orders.add(orderItemFromResultSet(resultSet));
+			}
+			return orders;
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return new ArrayList<>();
 	}
-
+	
 	@Override
 	public Order read(Long id) {
 		// TODO Auto-generated method stub
@@ -99,6 +122,10 @@ public class OrderDAO implements Dao<Order>{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	/*
+	 * Returns a single order with no products attached, just order ID and customer ID
+	 */
 
 	@Override
 	public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
@@ -106,5 +133,21 @@ public class OrderDAO implements Dao<Order>{
 		Long orderId = resultSet.getLong("order_id");
 		return new Order(orderId, customerId);
 	}
+	
+	/**
+	 * Returns a new order object
+	 */
+	public Order orderItemFromResultSet(ResultSet resultSet) throws SQLException {
+		Long orderId = resultSet.getLong("order_id");
+		String firstName = resultSet.getString("first_name");
+		String lastName = resultSet.getString("last_name");
+		String title = resultSet.getString("title");
+		double price = resultSet.getDouble("price");
+		Long quantity = resultSet.getLong("order_quantity");
+		double total = resultSet.getDouble("total");
+		return new Order(orderId, firstName, lastName, title, price, quantity, total);
+	}
+	
+	
 
 }
