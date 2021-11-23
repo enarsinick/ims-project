@@ -26,14 +26,12 @@ public class OrderDAO implements Dao<Order>{
 						+ "order_id, "
 						+ "first_name, "
 						+ "last_name, "
-						+ "title, "
-						+ "price, "
-						+ "order_quantity, "
-						+ "order_quantity*price AS total "
+						+ "SUM(order_quantity*price) AS total "
 						+ "FROM order_items oi "
 						+ "JOIN products p ON oi.fk_product_id=p.product_id "
 						+ "JOIN orders o ON oi.fk_order_id=o.order_id "
-						+ "JOIN customers c ON o.fk_customer_id=c.customer_id");) {
+						+ "JOIN customers c ON o.fk_customer_id=c.customer_id "
+						+ "GROUP BY order_id");) {
 			List<Order> orders = new ArrayList<>();
 			while (resultSet.next()) {
 				orders.add(orderItemFromResultSet(resultSet));
@@ -44,6 +42,14 @@ public class OrderDAO implements Dao<Order>{
 			LOGGER.error(e.getMessage());
 		}
 		return new ArrayList<>();
+	}
+	
+	public Order orderItemFromResultSet(ResultSet resultSet) throws SQLException {
+		Long orderId = resultSet.getLong("order_id");
+		String firstName = resultSet.getString("first_name");
+		String lastName = resultSet.getString("last_name");
+		double total = resultSet.getDouble("total");
+		return new Order(orderId, firstName, lastName, total);
 	}
 	
 	@Override
@@ -150,16 +156,7 @@ public class OrderDAO implements Dao<Order>{
 	/**
 	 * Returns a new order object
 	 */
-	public Order orderItemFromResultSet(ResultSet resultSet) throws SQLException {
-		Long orderId = resultSet.getLong("order_id");
-		String firstName = resultSet.getString("first_name");
-		String lastName = resultSet.getString("last_name");
-		String title = resultSet.getString("title");
-		double price = resultSet.getDouble("price");
-		Long quantity = resultSet.getLong("order_quantity");
-		double total = resultSet.getDouble("total");
-		return new Order(orderId, firstName, lastName, title, price, quantity, total);
-	}
+
 	
 	
 

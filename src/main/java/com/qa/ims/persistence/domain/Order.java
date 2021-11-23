@@ -8,18 +8,12 @@ public class Order {
 	private Long customerId;
 	private String firstName;
 	private String lastName;
-	private String title;
-	private double price;
-	private Long quantity;
 	private double total;
 	
-	public Order(Long orderId, String firstName, String lastName, String title, double price, Long quantity, double total) {
+	public Order(Long orderId, String firstName, String lastName, double total) {
 		this.orderId = orderId;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.title = title;
-		this.price = price;
-		this.quantity = quantity;
 		this.total = total;
 	};
 	
@@ -65,29 +59,6 @@ public class Order {
 		this.lastName = lastName;
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public Long getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Long quantity) {
-		this.quantity = quantity;
-	}
 
 	public double getTotal() {
 		return total;
@@ -99,13 +70,12 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "ID: " + orderId + " | Name: " + firstName + " " + lastName 
-				+ " | Game Title: " + title + " | Price: " + price + " | Quantity: " + quantity + " | Total: " + total;
+		return "ID: " + orderId + " | Name: " + firstName + " " + lastName + " | Total: £" + total;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(customerId, firstName, lastName, orderId, price, quantity, title, total);
+		return Objects.hash(customerId, firstName, lastName, orderId, total);
 	}
 
 	@Override
@@ -119,8 +89,8 @@ public class Order {
 		Order other = (Order) obj;
 		return Objects.equals(customerId, other.customerId) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(orderId, other.orderId)
-				&& Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price)
-				&& Objects.equals(quantity, other.quantity) && Objects.equals(title, other.title)
 				&& Double.doubleToLongBits(total) == Double.doubleToLongBits(other.total);
-	};
+	}
+
+	
 }
