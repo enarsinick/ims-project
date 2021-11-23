@@ -31,11 +31,16 @@ public class OrderController implements CrudController<Order>{
 		this.customers = customerController;
 		this.products = products;
 	}
+	
+	/*
+	 * View all orders within the system
+	 */
 
 	@Override
 	public List<Order> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Order> orders = orderDAO.readAll();
+		orders.stream().forEach(order -> LOGGER.info(order));
+		return orders;
 	}
 	
 	/*

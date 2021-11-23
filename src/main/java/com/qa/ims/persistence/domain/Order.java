@@ -6,6 +6,22 @@ public class Order {
 
 	private Long orderId;
 	private Long customerId;
+	private String firstName;
+	private String lastName;
+	private String title;
+	private double price;
+	private Long quantity;
+	private double total;
+	
+	public Order(Long orderId, String firstName, String lastName, String title, double price, Long quantity, double total) {
+		this.orderId = orderId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.title = title;
+		this.price = price;
+		this.quantity = quantity;
+		this.total = total;
+	};
 	
 	public Order(Long orderId, Long customerId) {
 		this.orderId = orderId;
@@ -32,14 +48,64 @@ public class Order {
 		this.customerId = customerId;
 	}
 
+	
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public Long getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
+
 	@Override
 	public String toString() {
-		return "Order ID: " + orderId + " | Customer ID : " + customerId;
+		return "ID: " + orderId + " | Name: " + firstName + " " + lastName 
+				+ " | Game Title: " + title + " | Price: " + price + " | Quantity: " + quantity + " | Total: " + total;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(customerId, orderId);
+		return Objects.hash(customerId, firstName, lastName, orderId, price, quantity, title, total);
 	}
 
 	@Override
@@ -51,6 +117,10 @@ public class Order {
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		return Objects.equals(customerId, other.customerId) && Objects.equals(orderId, other.orderId);
+		return Objects.equals(customerId, other.customerId) && Objects.equals(firstName, other.firstName)
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(orderId, other.orderId)
+				&& Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price)
+				&& Objects.equals(quantity, other.quantity) && Objects.equals(title, other.title)
+				&& Double.doubleToLongBits(total) == Double.doubleToLongBits(other.total);
 	};
 }
