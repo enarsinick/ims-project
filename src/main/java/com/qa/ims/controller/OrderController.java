@@ -88,7 +88,19 @@ public class OrderController implements CrudController<Order>{
 
 	@Override
 	public Order update() {
-		// TODO Auto-generated method stub
+		
+		// List all current orders
+		List<Order> orders = orderDAO.readAll();
+		orders.stream().forEach(order -> LOGGER.info(order));
+		
+		// Select the order that needs to be updated
+		LOGGER.info("Please write the ID of the order you want to update");
+		Long id = utils.getLong();
+		
+		// Get contents of entire order
+		List<Product> products = orderDAO.getOrderContents(id);
+		products.stream().forEach(product -> LOGGER.info(product));
+		
 		return null;
 	}
 

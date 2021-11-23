@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.qa.ims.persistence.domain.Order;
+import com.qa.ims.persistence.domain.Product;
 import com.qa.ims.utils.DBUtils;
 
 public class OrderDAO implements Dao<Order>{
@@ -44,13 +45,6 @@ public class OrderDAO implements Dao<Order>{
 		return new ArrayList<>();
 	}
 	
-	public Order orderItemFromResultSet(ResultSet resultSet) throws SQLException {
-		Long orderId = resultSet.getLong("order_id");
-		String firstName = resultSet.getString("first_name");
-		String lastName = resultSet.getString("last_name");
-		double total = resultSet.getDouble("total");
-		return new Order(orderId, firstName, lastName, total);
-	}
 	
 	@Override
 	public Order read(Long id) {
@@ -116,6 +110,38 @@ public class OrderDAO implements Dao<Order>{
 			LOGGER.error(e.getMessage());
 		}
 	}
+	
+	/**
+	 * Gets the contents of an entire single order
+	 * 
+	 * @param order id
+	 * 
+	 * @return List of order contents as product objects
+	 */
+	
+	public List<Product> getOrderContents(Long id) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT "
+						+ "product_id, "
+						+ "title, "
+						+ "price "
+						+ "FROM order_items oi "
+						+ "JOIN products p ON oi.fk_product_id=p.product_id "
+						+ "JOIN orders o ON oi.fk_order_id=o.order_id "
+						+ "JOIN customers c ON o.fk_customer_id=c.customer_id "
+						+ "WHERE order_id = " + id);) {
+			List<Product> products = new ArrayList<>();
+			while (resultSet.next()) {
+				products.add(productFromResultSet(resultSet));
+			}
+			return products;
+		} catch (SQLException e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return new ArrayList<>();
+	}
 
 	@Override
 	public Order update(Order t) {
@@ -153,11 +179,27 @@ public class OrderDAO implements Dao<Order>{
 		return new Order(orderId, customerId);
 	}
 	
+	/*
+	 * Returns a single product that is attached to a specific order
+	 */
+	public Product productFromResultSet(ResultSet resultSet) throws SQLException {
+		Long productId = resultSet.getLong("product_id");
+		String title = resultSet.getString("title");
+		double price = resultSet.getDouble("price");
+		return new Product(productId, title, price);
+	}
+	
 	/**
 	 * Returns a new order object
 	 */
 
-	
+	public Order orderItemFromResultSet(ResultSet resultSet) throws SQLException {
+		Long orderId = resultSet.getLong("order_id");
+		String firstName = resultSet.getString("first_name");
+		String lastName = resultSet.getString("last_name");
+		double total = resultSet.getDouble("total");
+		return new Order(orderId, firstName, lastName, total);
+	}
 	
 
 }
