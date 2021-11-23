@@ -117,9 +117,22 @@ public class OrderDAO implements Dao<Order>{
 		return null;
 	}
 
+	/**
+	 * Deletes an order in the database
+	 * 
+	 * @param id - id of the order
+	 */
 	@Override
 	public int delete(long id) {
-		// TODO Auto-generated method stub
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE order_id = ?");) {
+			statement.setLong(1, id);
+			LOGGER.info("Order has been deleted...");			
+			return statement.executeUpdate();
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
 		return 0;
 	}
 	
