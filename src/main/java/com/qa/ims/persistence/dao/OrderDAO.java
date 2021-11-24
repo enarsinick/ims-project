@@ -105,7 +105,7 @@ public class OrderDAO implements Dao<Order>{
 	 * Creates a new order in the order_items table
 	 */
 	
-	public void createOrderItem(Long product, Long quantity, Long orderId, Long customerId) {
+	public boolean createOrderItem(Long product, Long quantity, Long orderId, Long customerId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
 				.prepareStatement("INSERT INTO order_items (fk_order_id, fk_product_id, fk_customer_id, order_quantity) VALUES (? , ?, ? , ?)");) {
@@ -115,10 +115,12 @@ public class OrderDAO implements Dao<Order>{
 				statement.setLong(4, quantity);
 				statement.executeUpdate();
 				LOGGER.info("Item(s) added...");
+				return true;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
+		return false;
 	}
 	
 	/**
