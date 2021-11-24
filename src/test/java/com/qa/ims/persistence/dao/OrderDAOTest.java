@@ -2,6 +2,9 @@ package com.qa.ims.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,12 +37,12 @@ public class OrderDAOTest {
 	 * order_items table doesn't get created in the H2 Database
 	 */
 	
-//	@Test
-//	public void testReadAll() {
-//		List<Order> orders = new ArrayList<>();
-//		orders.add(new Order(1L,"jordan", "harrison", 54.99));
-//		assertEquals(orders, DAO.readAll());
-//	}
+	@Test
+	public void testReadAll() {
+		List<Order> orders = new ArrayList<>();
+		orders.add(new Order(1L,"jordan", "harrison", 54.99));
+		assertEquals(orders, DAO.readAll());
+	}
 	
 //	@Test
 //	public void testGetOrderContents() {

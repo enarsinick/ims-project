@@ -9,14 +9,12 @@ public class Product {
 	private double price;
 	
 	public Product(Long productId, String title, double price) {
-		super();
 		this.productId = productId;
 		this.title = title;
 		this.price = price;
 	}
 
 	public Product(String title, double price) {
-		super();
 		this.title = title;
 		this.price = price;
 	}
