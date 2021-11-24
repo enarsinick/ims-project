@@ -4,12 +4,11 @@ import org.junit.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
-public class CustomerTest {
+public class ProductTest {
 	
-
 	@Test
 	public void testEquals() {
-		EqualsVerifier.simple().forClass(Customer.class).verify();
+		EqualsVerifier.simple().forClass(Product.class).verify();
 	}
-	
+
 }
