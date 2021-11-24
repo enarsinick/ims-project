@@ -1,4 +1,7 @@
 DROP TABLE IF EXISTS `customers`;
+DROP TABLE IF EXISTS `products`;
+DROP TABLE IF EXISTS `orders`;
+DROP TABLE IF EXISTS `order_items`;
 
 -- customer table
 CREATE TABLE IF NOT EXISTS `customers` (
@@ -8,8 +11,6 @@ CREATE TABLE IF NOT EXISTS `customers` (
     PRIMARY KEY (`customer_id`)
 );
 
-DROP TABLE IF EXISTS `products`;
-
 -- products/items table
 CREATE TABLE IF NOT EXISTS `products` (
 	`product_id` int AUTO_INCREMENT,
@@ -17,8 +18,6 @@ CREATE TABLE IF NOT EXISTS `products` (
     `price` decimal(5,2) NOT NULL,
     PRIMARY KEY (`product_id`)
 );
-
-DROP TABLE IF EXISTS `orders`;
 
 -- orders table 
 CREATE TABLE IF NOT EXISTS `orders` (
@@ -29,8 +28,6 @@ CREATE TABLE IF NOT EXISTS `orders` (
     ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS `order_items`;
-
 -- order items joining table
 CREATE TABLE IF NOT EXISTS `order_items` (
 	`order_items_id` int AUTO_INCREMENT, 
@@ -39,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `order_items` (
     `order_quantity` int NOT NULL, 
     PRIMARY KEY (`order_items_id`), 
     FOREIGN KEY (`fk_order_id`) REFERENCES orders(`order_id`), 
-    FOREIGN KEY (`fk_product_id`) REFERENCES products(`product_id`),
+    FOREIGN KEY (`fk_product_id`) REFERENCES products(`product_id`) ON DELETE CASCADE,
     FOREIGN KEY (fk_customer_id) REFERENCES customers(customer_id)
     ON DELETE CASCADE
 );
