@@ -36,11 +36,12 @@ public class IMS {
 	}
 
 	public void imsSystem() {
-		LOGGER.info("Welcome to the Inventory Management System!");
+		LOGGER.info("Welcome to the Nick's Game Shop IMS!");
 		DBUtils.connect();
 
 		Domain domain = null;
 		do {
+			LOGGER.info("---------------------------------------------------");
 			LOGGER.info("Which entity would you like to use?");
 			Domain.printDomains();
 
@@ -71,7 +72,7 @@ public class IMS {
 			default:
 				break;
 			}
-
+			LOGGER.info("---------------------------------------------------");
 			LOGGER.info(() ->"What would you like to do with " + domain.name().toLowerCase() + ":");
 
 			Action.printActions();
