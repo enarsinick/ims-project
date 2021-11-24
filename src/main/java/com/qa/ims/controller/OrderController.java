@@ -37,6 +37,7 @@ public class OrderController implements CrudController<Order> {
 	 */
 	@Override
 	public List<Order> readAll() {
+		LOGGER.info("---------------------------------------------------");
 		List<Order> orders = orderDAO.readAll();
 		orders.stream().forEach(order -> LOGGER.info(order));
 		return orders;
@@ -47,6 +48,7 @@ public class OrderController implements CrudController<Order> {
 	 */
 	@Override
 	public Order create() {
+		LOGGER.info("---------------------------------------------------");
 		// First we need to list all customers and get ID
 		List<Customer> customers = this.customers.readAll();
 		customers.stream().forEach(customer -> LOGGER.info(customer));
@@ -81,8 +83,8 @@ public class OrderController implements CrudController<Order> {
 		// List all current orders
 		readAll();
 
-		// Select the order that needs to be updated and retrieve order from orders
-		// table
+		// Select the order that needs to be updated and retrieve order from orders table
+		LOGGER.info("---------------------------------------------------");
 		LOGGER.info("Please write the ID of the order you want to update");
 		orderId = utils.getLong();
 		Order order = orderDAO.read(orderId);
@@ -92,6 +94,7 @@ public class OrderController implements CrudController<Order> {
 		products.stream().forEach(product -> LOGGER.info(product));
 
 		// What does the user want to do
+		LOGGER.info("---------------------------------------------------");
 		LOGGER.info("Would you like to delete or add a product?");
 		String input = utils.getString().toUpperCase();
 
@@ -125,6 +128,7 @@ public class OrderController implements CrudController<Order> {
 	 */
 	@Override
 	public int delete() {
+		LOGGER.info("---------------------------------------------------");
 		readAll();
 		LOGGER.info("Please enter the ID of the order you'd like to delete");
 		Long id = utils.getLong();
@@ -155,6 +159,7 @@ public class OrderController implements CrudController<Order> {
 		Map<Long, Long> chosenProds = new HashMap<>();
 		boolean choosing = true;
 		// Get users choices and quantity
+		LOGGER.info("---------------------------------------------------");
 		while (choosing) {
 			LOGGER.info("Please supply ID of product to add or write 0 when finished");
 			Long productId = utils.getLong();

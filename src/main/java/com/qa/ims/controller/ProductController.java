@@ -24,6 +24,7 @@ public class ProductController implements CrudController<Product> {
 
 	@Override
 	public List<Product> readAll() {
+		LOGGER.info("---------------------------------------------------");
 		List<Product> products = productDAO.readAll();
 		products.stream().forEach(product -> LOGGER.info(product));
 		return products;
@@ -34,6 +35,7 @@ public class ProductController implements CrudController<Product> {
 	 */
 	@Override
 	public Product create() {
+		LOGGER.info("---------------------------------------------------");
 		LOGGER.info("Please enter a title of the game");
 		String title = utils.getString();
 		LOGGER.info("Please enter a price for the game (Example 19.99)");
@@ -47,6 +49,7 @@ public class ProductController implements CrudController<Product> {
 	 */
 	@Override
 	public Product update() {
+		LOGGER.info("---------------------------------------------------");
 		LOGGER.info("Please enter the id of the product you would like to update");
 		Long id = utils.getLong();
 		LOGGER.info("Please enter the title for the game");
@@ -59,6 +62,7 @@ public class ProductController implements CrudController<Product> {
 
 	@Override
 	public int delete() {
+		LOGGER.info("---------------------------------------------------");
 		LOGGER.info("Please enter the ID of the product you'd like to delete");
 		Long id = utils.getLong();
 		return productDAO.delete(id);
