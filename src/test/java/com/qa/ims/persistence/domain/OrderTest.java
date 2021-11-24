@@ -43,13 +43,6 @@ public class OrderTest {
 		assertEquals(expected, result);
 	}
 
-	@SuppressWarnings("deprecation")
-	public void getTotal() {
-		Order order = new Order(1L, "Nick", "Cave", 19.99);
-		double expected = 19.99;
-		double result = order.getTotal();
-		assertEquals(expected, result);
-	}
 	
 	@Test
 	public void testGetProductId() {
