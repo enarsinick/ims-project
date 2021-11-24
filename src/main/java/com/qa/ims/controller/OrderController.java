@@ -58,20 +58,6 @@ public class OrderController implements CrudController<Order> {
 		products.stream().forEach(product -> LOGGER.info(product));
 		Map<Long, Long> chosenProds = getProductChoice();
 
-//		// Get users choices and quantity
-//		while (choosing) {
-//			LOGGER.info("Please supply ID of product to add or write 0 when finished");
-//			Long id = utils.getLong();
-//			if (id != 0) {
-//				LOGGER.info("Please supply the quantity");
-//				Long quantity = utils.getLong();
-//				chosenProds.put(id, quantity);
-//			} else {
-//				choosing = false;
-//				break;
-//			}
-//		}
-
 		// Create an order
 		Order order = orderDAO.create(new Order(customerId));
 
