@@ -158,7 +158,7 @@ public class OrderDAO implements Dao<Order>{
 	@Override
 	public Order update(Order order) {
 		createOrderItem(order.getProductId(), order.getQuantity(), order.getOrderId(), order.getCustomerId());
-		return null;
+		return order;
 	}
 	
 	/*

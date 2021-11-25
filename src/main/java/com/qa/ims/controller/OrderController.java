@@ -101,9 +101,9 @@ public class OrderController implements CrudController<Order> {
 
 		// Call methods based on response
 		if (input.equals("ADD")) {
-			addToOrder(order);
+			return addToOrder(order);
 		} else if (input.equals("DELETE")) {
-			deleteFromOrder(order);
+			return deleteFromOrder(order);
 		} else {
 			LOGGER.info("You didn't specify a correct action. Please try again.");
 		}
@@ -113,15 +113,16 @@ public class OrderController implements CrudController<Order> {
 	/*
 	 * Builds a list of products to add to an existing order
 	 */
-	public void addToOrder(Order order) {
+	public Order addToOrder(Order order) {
 		// Print all games and get product choices
 		this.products.readAll();
 		Map<Long, Long> chosenProds = getProductChoice();
 		// Create entries in order items
 		for (Entry<Long, Long> i : chosenProds.entrySet()) {
 			Order newOrderItem = new Order(order.getOrderId(), order.getCustomerId(), i.getKey(), i.getValue());
-			orderDAO.update(newOrderItem);
+			return orderDAO.update(newOrderItem);
 		}
+		return null;
 	}
 
 	/*
@@ -139,18 +140,11 @@ public class OrderController implements CrudController<Order> {
 	/*
 	 * Delete an item from an existing order
 	 */
-	public void deleteFromOrder(Order order) {
-		boolean choosing = true;
-		while (choosing) {
-			LOGGER.info("Please supply ID of product to add or write 0 when finished");
-			Long removeItemId = utils.getLong();
-			if (removeItemId != 0) {
-				orderDAO.removeFromOrder(removeItemId, order.getCustomerId(), order.getOrderId());
-			} else {
-				choosing = false;
-				break;
-			}
-		}
+	public Order deleteFromOrder(Order order) {
+		LOGGER.info("Please supply ID of product to delete");
+		Long removeItemId = utils.getLong();
+		orderDAO.removeFromOrder(removeItemId, order.getCustomerId(), order.getOrderId());
+		return order;
 	}
 
 	/*
