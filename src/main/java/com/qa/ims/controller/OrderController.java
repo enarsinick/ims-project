@@ -83,7 +83,8 @@ public class OrderController implements CrudController<Order> {
 		// List all current orders
 		readAll();
 
-		// Select the order that needs to be updated and retrieve order from orders table
+		// Select the order that needs to be updated and retrieve order from orders
+		// table
 		LOGGER.info("---------------------------------------------------");
 		LOGGER.info("Please write the ID of the order you want to update");
 		orderId = utils.getLong();
@@ -157,21 +158,13 @@ public class OrderController implements CrudController<Order> {
 	 */
 	public Map<Long, Long> getProductChoice() {
 		Map<Long, Long> chosenProds = new HashMap<>();
-		boolean choosing = true;
 		// Get users choices and quantity
 		LOGGER.info("---------------------------------------------------");
-		while (choosing) {
-			LOGGER.info("Please supply ID of product to add or write 0 when finished");
-			Long productId = utils.getLong();
-			if (productId != 0) {
-				LOGGER.info("Please supply the quantity");
-				Long quantity = utils.getLong();
-				chosenProds.put(productId, quantity);
-			} else {
-				choosing = false;
-				break;
-			}
-		}
+		LOGGER.info("Please supply ID of product to add");
+		Long productId = utils.getLong();
+		LOGGER.info("Please supply the quantity");
+		Long quantity = utils.getLong();
+		chosenProds.put(productId, quantity);
 		return chosenProds;
 	}
 }
