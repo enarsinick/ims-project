@@ -105,7 +105,7 @@ public class OrderDAO implements Dao<Order>{
 	 * Creates a new order in the order_items table
 	 */
 	
-	public void createOrderItem(Long product, Long quantity, Long orderId, Long customerId) {
+	public boolean createOrderItem(Long product, Long quantity, Long orderId, Long customerId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection
 				.prepareStatement("INSERT INTO order_items (fk_order_id, fk_product_id, fk_customer_id, order_quantity) VALUES (? , ?, ? , ?)");) {
@@ -115,10 +115,12 @@ public class OrderDAO implements Dao<Order>{
 				statement.setLong(4, quantity);
 				statement.executeUpdate();
 				LOGGER.info("Item(s) added...");
+				return true;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
+		return false;
 	}
 	
 	/**
@@ -156,25 +158,27 @@ public class OrderDAO implements Dao<Order>{
 	@Override
 	public Order update(Order order) {
 		createOrderItem(order.getProductId(), order.getQuantity(), order.getOrderId(), order.getCustomerId());
-		return null;
+		return order;
 	}
 	
 	/*
 	 * Removes a single item from a current order in the order_items table
 	 */
 	
-	public void removeFromOrder(Long productId, Long customerId, Long orderId) {
+	public boolean removeFromOrder(Long productId, Long customerId, Long orderId) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE fk_product_id = ? AND fk_customer_id = ? AND fk_order_id = ?");) {
 			statement.setLong(1, productId);
 			statement.setLong(2, customerId);
 			statement.setLong(3, orderId);
 			statement.executeUpdate();
-			LOGGER.info("Item has been deleted from order...");			
+			LOGGER.info("Item has been deleted from order...");
+			return true;
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
+		return false;
 	}
 
 	/**

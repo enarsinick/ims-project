@@ -83,7 +83,8 @@ public class OrderController implements CrudController<Order> {
 		// List all current orders
 		readAll();
 
-		// Select the order that needs to be updated and retrieve order from orders table
+		// Select the order that needs to be updated and retrieve order from orders
+		// table
 		LOGGER.info("---------------------------------------------------");
 		LOGGER.info("Please write the ID of the order you want to update");
 		orderId = utils.getLong();
@@ -100,9 +101,9 @@ public class OrderController implements CrudController<Order> {
 
 		// Call methods based on response
 		if (input.equals("ADD")) {
-			addToOrder(order);
+			return addToOrder(order);
 		} else if (input.equals("DELETE")) {
-			deleteFromOrder(order);
+			return deleteFromOrder(order);
 		} else {
 			LOGGER.info("You didn't specify a correct action. Please try again.");
 		}
@@ -112,15 +113,16 @@ public class OrderController implements CrudController<Order> {
 	/*
 	 * Builds a list of products to add to an existing order
 	 */
-	public void addToOrder(Order order) {
+	public Order addToOrder(Order order) {
 		// Print all games and get product choices
 		this.products.readAll();
 		Map<Long, Long> chosenProds = getProductChoice();
 		// Create entries in order items
 		for (Entry<Long, Long> i : chosenProds.entrySet()) {
 			Order newOrderItem = new Order(order.getOrderId(), order.getCustomerId(), i.getKey(), i.getValue());
-			orderDAO.update(newOrderItem);
+			return orderDAO.update(newOrderItem);
 		}
+		return null;
 	}
 
 	/*
@@ -138,18 +140,11 @@ public class OrderController implements CrudController<Order> {
 	/*
 	 * Delete an item from an existing order
 	 */
-	public void deleteFromOrder(Order order) {
-		boolean choosing = true;
-		while (choosing) {
-			LOGGER.info("Please supply ID of product to add or write 0 when finished");
-			Long removeItemId = utils.getLong();
-			if (removeItemId != 0) {
-				orderDAO.removeFromOrder(removeItemId, order.getCustomerId(), order.getOrderId());
-			} else {
-				choosing = false;
-				break;
-			}
-		}
+	public Order deleteFromOrder(Order order) {
+		LOGGER.info("Please supply ID of product to delete");
+		Long removeItemId = utils.getLong();
+		orderDAO.removeFromOrder(removeItemId, order.getCustomerId(), order.getOrderId());
+		return order;
 	}
 
 	/*
@@ -157,21 +152,13 @@ public class OrderController implements CrudController<Order> {
 	 */
 	public Map<Long, Long> getProductChoice() {
 		Map<Long, Long> chosenProds = new HashMap<>();
-		boolean choosing = true;
 		// Get users choices and quantity
 		LOGGER.info("---------------------------------------------------");
-		while (choosing) {
-			LOGGER.info("Please supply ID of product to add or write 0 when finished");
-			Long productId = utils.getLong();
-			if (productId != 0) {
-				LOGGER.info("Please supply the quantity");
-				Long quantity = utils.getLong();
-				chosenProds.put(productId, quantity);
-			} else {
-				choosing = false;
-				break;
-			}
-		}
+		LOGGER.info("Please supply ID of product to add");
+		Long productId = utils.getLong();
+		LOGGER.info("Please supply the quantity");
+		Long quantity = utils.getLong();
+		chosenProds.put(productId, quantity);
 		return chosenProds;
 	}
 }

@@ -1,5 +1,7 @@
 package com.qa.ims.persistence.domain;
 
+import java.util.Objects;
+
 public class Customer {
 
 	private Long customerId;
@@ -44,16 +46,11 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "Customer ID: " + customerId + " | First Name: " + firstName + " | Last Name: " + lastName;
-	}	
-	
+	}
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((customerId == null) ? 0 : customerId.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		return result;
+		return Objects.hash(customerId, firstName, lastName);
 	}
 
 	@Override
@@ -65,22 +62,10 @@ public class Customer {
 		if (getClass() != obj.getClass())
 			return false;
 		Customer other = (Customer) obj;
-		if (getFirstName() == null) {
-			if (other.getFirstName() != null)
-				return false;
-		} else if (!getFirstName().equals(other.getFirstName()))
-			return false;
-		if (customerId == null) {
-			if (other.customerId != null)
-				return false;
-		} else if (!customerId.equals(other.customerId))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		return true;
-	}
+		return Objects.equals(customerId, other.customerId) && Objects.equals(firstName, other.firstName)
+				&& Objects.equals(lastName, other.lastName);
+	}	
+	
+
 
 }
