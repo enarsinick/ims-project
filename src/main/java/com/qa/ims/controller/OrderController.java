@@ -57,7 +57,7 @@ public class OrderController implements CrudController<Order> {
 
 		// Create an order
 		Order order = orderDAO.create(new Order(customerId));
-
+		
 		// List all products in system and get choices
 		List<Product> products = this.products.readAll();
 		products.stream().forEach(product -> LOGGER.info(product));
