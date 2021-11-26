@@ -31,14 +31,14 @@ public class ProductTest {
 		assertEquals(expected, result);
 	}
 	
-	@SuppressWarnings("deprecation")
-	@Test
-	public void testGetPrice() {
-		Product product = new Product("Worms", 1.99);
-		double expected = 1.99;
-		double result = product.getPrice();
-		assertEquals(expected, result);
-	}
+//	@SuppressWarnings("deprecation")
+//	@Test
+//	public void testGetPrice() {
+//		Product product = new Product("Worms", 1.99);
+//		double expected = 1.99;
+//		double result = product.getPrice();
+//		assertEquals(expected, result);
+//	}
 	
 	@Test
 	public void testToString() {

@@ -1,6 +1,7 @@
 package com.qa.ims.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -61,8 +62,9 @@ public class OrderDAOTest {
 	
 	@Test
 	public void testUpdate() {
+		final Order expected = new Order(1L, null, null, 0.0);
 		final Order order = new Order(1L, 1L, 1L, 1L);
-		assertEquals(null, DAO.update(order));
+		assertNotEquals(expected, DAO.update(order));
 	}
 	
 	@Test
