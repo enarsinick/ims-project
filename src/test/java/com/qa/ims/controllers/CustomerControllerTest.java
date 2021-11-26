@@ -60,7 +60,7 @@ public class CustomerControllerTest {
 		Customer updated = new Customer(1L, "chris", "perrins");
 
 		Mockito.when(this.utils.getLong()).thenReturn(1L);
-		Mockito.when(this.utils.getString()).thenReturn(updated.getFirstName(), updated.getSurname());
+		Mockito.when(this.utils.getString()).thenReturn(updated.getFirstName(), updated.getLastName());
 		Mockito.when(this.dao.update(updated)).thenReturn(updated);
 
 		assertEquals(updated, this.controller.update());

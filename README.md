@@ -1,89 +1,48 @@
-Coverage: 34%
-# Project Title
+Coverage: 76.7%
+# Nick's Game Shop IMS Project
 
-One Paragraph of project description goes here
+A Command-Line interface (CLI) CRUD application for a fake game shop called Nick's Game Shop. The application would be an Inventory Management System (IMS) that would allow users to perform Create, Read Update and Delete features on things like customer, order and products.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+You'll need the following installed on your system in order to download and run the project.
 
 ```
-Give examples
+Git
+Java 
+MySQL
 ```
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+Open a Git Bash window and clone the repo to a desired directory
 
 ```
-Give the example
+git clone git@github.com:enarsinick/ims-project.git
 ```
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+You'll now have a copy of the project that you can open in a desired IDE (E.g Eclipse)
 
 ## Running the tests
 
-Explain how to run the automated tests for this system. Break down into which tests and what they do
-
-### Unit Tests 
-
-Explain what these tests test, why and how to run them
-
-```
-Give an example
-```
-
-### Integration Tests 
-Explain what these tests test, why and how to run them
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
+The run a project wide test all you need to do is right click on the root folder in Package Explorer and click Coverage As > JUnit Test.
 
 ## Built With
 
-* [Maven](https://maven.apache.org/) - Dependency Management
+* [Maven](https://maven.apache.org/)
+* [Java](https://www.java.com/en/)
+* [Git](https://git-scm.com/)
+* [Eclipse](https://www.eclipse.org/)
+
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning.
+We use [Git](https://git-scm.com/) for versioning.
 
 ## Authors
 
-* **Chris Perrins** - *Initial work* - [christophperrins](https://github.com/christophperrins)
-
-## License
-
-This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md) file for details 
-
-*For help in [Choosing a license](https://choosealicense.com/)*
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* **Nick Cave** - [enarsinick](https://github.com/enarsinick)
