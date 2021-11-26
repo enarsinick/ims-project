@@ -1,4 +1,4 @@
-Coverage: 77.4%
+Coverage: 76.7%
 # Nick's Game Shop IMS Project
 
 A Command-Line interface (CLI) CRUD application for a fake game shop called Nick's Game Shop. The application would be an Inventory Management System (IMS) that would allow users to perform Create, Read Update and Delete features on things like customer, order and products.

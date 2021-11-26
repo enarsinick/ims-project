@@ -55,13 +55,13 @@ public class OrderController implements CrudController<Order> {
 		LOGGER.info("Please select the ID of the customer you'd like to create an order for");
 		Long customerId = utils.getLong();
 
+		// Create an order
+		Order order = orderDAO.create(new Order(customerId));
+
 		// List all products in system and get choices
 		List<Product> products = this.products.readAll();
 		products.stream().forEach(product -> LOGGER.info(product));
 		Map<Long, Long> chosenProds = getProductChoice();
-
-		// Create an order
-		Order order = orderDAO.create(new Order(customerId));
 
 		// Create entries in order items
 		for (Entry<Long, Long> i : chosenProds.entrySet()) {
