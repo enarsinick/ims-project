@@ -33,6 +33,7 @@ public class CustomerDAOTest {
 		expected.add(new Customer(1L, "jordan", "harrison"));
 		assertEquals(expected, DAO.readAll());
 	}
+	
 
 	@Test
 	public void testReadLatest() {
