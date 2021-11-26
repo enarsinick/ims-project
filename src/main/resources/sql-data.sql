@@ -45,6 +45,7 @@ INSERT INTO `ims`.`products` (title, price) VALUES ('PAYDAY', 8.99);
 INSERT INTO `ims`.`products` (title, price) VALUES ('Tom Clancy's Rainbow Six Seige', 16.99);
 INSERT INTO `ims`.`products` (title, price) VALUES ('Borderlands 3', 49.99);
 
+INSERT INTO `ims`.`orders` (fk_customer_id) VALUES (1);
 INSERT INTO `ims`.`orders` (fk_customer_id) VALUES (2);
 INSERT INTO `ims`.`orders` (fk_customer_id) VALUES (3);
 INSERT INTO `ims`.`orders` (fk_customer_id) VALUES (4);

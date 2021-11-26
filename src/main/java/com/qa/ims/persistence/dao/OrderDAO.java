@@ -92,7 +92,6 @@ public class OrderDAO implements Dao<Order>{
 				.prepareStatement("INSERT INTO orders (fk_customer_id) VALUES (?)");) {
 				statement.setLong(1, order.getCustomerId());
 				statement.executeUpdate();
-				LOGGER.info("Order created");
 				return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e);
